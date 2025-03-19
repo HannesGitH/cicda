@@ -26,6 +26,8 @@
 		]
 	},
 	"dependencies": {
+		"@octokit/webhooks": "^13.7.5",
+		"@sveltejs/adapter-node": "^5.2.12",
 		"child_process": "^1.0.2",
 		"octokit": "^4.1.2"
 	}

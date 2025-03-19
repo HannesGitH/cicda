@@ -34,7 +34,7 @@
 
           pnpmDeps = pnpm.fetchDeps {
             inherit (finalAttrs) pname version src;
-            hash = "sha256-Xf3z6BBFiore3/9iRHl4dWEhBfsGggdQOKLpQPfXiis=";
+            hash = "sha256-RYCiILrdCCB4tqf6miYOxbPlWWZtfuia8FySPivewG0=";
           };
 
           buildPhase = ''
@@ -44,7 +44,7 @@
 
           installPhase = ''
             mkdir -p $out
-            cp -r dist/* $out
+            cp -r build/* $out
           '';
 
         });

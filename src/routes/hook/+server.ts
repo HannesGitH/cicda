@@ -1,9 +1,13 @@
-import { octo_app } from "$lib/common/octo.server";
+import { getOctoApp } from "$lib/common/octo.server";
 import { onPullRequest } from "$lib/hooks";
 
-octo_app.webhooks.on("pull_request", onPullRequest);
 
 export async function POST({ request }) : Promise<void> {
+
+    const octo_app = getOctoApp();
+
+    octo_app.webhooks.on("pull_request", onPullRequest);
+
 	octo_app.webhooks.verifyAndReceive({
 		id: request.headers.get("x-github-delivery")!,
 		name: request.headers.get("x-github-event")!,
