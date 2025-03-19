@@ -20,10 +20,13 @@ let
         exit 1
     fi
 
-    # version has to be passed as an argument, if it is not passed, it will be set to 0.0.1
-    version=$1
+    # base url has to be passed as an argument, if it is not passed
+    base_url=$1 # api.dev.blingcard.app
 
-    spec_url="https://api.dev.blingcard.app/openapi-$SWAGGER_BASIC_SECR/"
+    # version has to be passed as an argument, if it is not passed, it will be set to 0.0.1
+    version=$2
+
+    spec_url="https://$base_url/openapi-$SWAGGER_BASIC_SECR/"
     target_lang=dart
 
     dist_dir=.dist/beam

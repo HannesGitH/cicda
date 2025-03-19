@@ -10,6 +10,6 @@ export const createBeam = async({ octokit, version }: { octokit: Octokit, versio
 
 const genBeam = ({version}:{version: Version}) => {
     // run sh script to generate beam
-    const result = execSync(`beam_gen ${version}`);
+    const result = execSync(`beam_gen api.dev.blingcard.app ${version}`);
     console.log(result);
 }
