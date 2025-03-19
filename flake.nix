@@ -3,20 +3,29 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    openapi_parser.url = "github:HannesGitH/openapi_parser";
   };
 
-  outputs = { self, nixpkgs }: let
+  outputs = { self, nixpkgs, openapi_parser }: let
       inherit (nixpkgs) lib;
       systems = lib.systems.flakeExposed;
       forAllSystems = lib.genAttrs systems;
       spkgs = system: nixpkgs.legacyPackages.${system}.pkgs;
     in {
-      packages = forAllSystems (s: with spkgs s; rec {
+      packages = forAllSystems (s: let pkgs = spkgs s; in with pkgs; rec {
+        beam_gen = pkgs.callPackage ./dependencies/beam_gen/sh.nix {
+          inherit openapi_parser;
+          inherit pkgs;
+        };
         app = stdenv.mkDerivation (finalAttrs: {
           pname = "cicda";
           version = "000-0";
 
           src = ./.;
+
+          buildInputs = [
+            beam_gen            
+          ];
 
           nativeBuildInputs = [
             nodejs

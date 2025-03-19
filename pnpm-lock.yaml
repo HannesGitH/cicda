@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      child_process:
+        specifier: ^1.0.2
+        version: 1.0.2
       octokit:
         specifier: ^4.1.2
         version: 4.1.2
@@ -474,6 +477,9 @@ packages:
 
   bottleneck@2.19.5:
     resolution: {integrity: sha512-VHiNCbI1lKdl44tGrhNfU3lup0Tj/ZBMJB5/2ZbNXRCPuRCO7ed2mgcK4r17y+KB2EfuYuRaVlwNbAeaWGSpbw==}
+
+  child_process@1.0.2:
+    resolution: {integrity: sha512-Wmza/JzL0SiWz7kl6MhIKT5ceIlnFPJX+lwUGj7Clhy5MMldsSoJR0+uvRzOS5Kv45Mq7t1PoE8TsOA9bzvb6g==}
 
   chokidar@4.0.3:
     resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
@@ -1047,6 +1053,8 @@ snapshots:
   before-after-hook@3.0.2: {}
 
   bottleneck@2.19.5: {}
+
+  child_process@1.0.2: {}
 
   chokidar@4.0.3:
     dependencies:

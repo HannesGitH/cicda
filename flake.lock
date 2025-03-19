@@ -16,9 +16,44 @@
         "type": "github"
       }
     },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1742288794,
+        "narHash": "sha256-Txwa5uO+qpQXrNG4eumPSD+hHzzYi/CdaM80M9XRLCo=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "b6eaf97c6960d97350c584de1b6dcff03c9daf42",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "openapi_parser": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1742423172,
+        "narHash": "sha256-YOgNQCnHguczMbDG8M10l1PcPkNlJ3gohTlH1YefO5I=",
+        "owner": "HannesGitH",
+        "repo": "openapi_parser",
+        "rev": "81a007c8d26f9573358f66b6dd7dbe2427abbb41",
+        "type": "github"
+      },
+      "original": {
+        "owner": "HannesGitH",
+        "repo": "openapi_parser",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "openapi_parser": "openapi_parser"
       }
     }
   },
