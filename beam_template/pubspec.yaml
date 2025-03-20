@@ -1,0 +1,7 @@
+name: beam
+description: Bling Endpoint Api Mapper
+version: {{VERSION}}
+
+environment:
+  sdk: ^3.6.0
+  flutter: ^3.27.2

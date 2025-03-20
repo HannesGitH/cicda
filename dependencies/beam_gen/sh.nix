@@ -41,8 +41,8 @@ let
     rm -rf $dist_dir
     mkdir -p $dist_dir
 
-    # copy template_dir to dist_dir
-    cp -r $template_dir/ $dist_dir
+    # copy everything in template_dir to dist_dir
+    cp -r $template_dir/* $dist_dir
 
     # replace version in readme.md
     ${pkgs.gnused}/bin/sed -i "s/{{VERSION}}/$version/" "$dist_dir/readme.md"

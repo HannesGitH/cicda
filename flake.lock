@@ -37,11 +37,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1742423172,
-        "narHash": "sha256-YOgNQCnHguczMbDG8M10l1PcPkNlJ3gohTlH1YefO5I=",
+        "lastModified": 1742465850,
+        "narHash": "sha256-LXjplr0H0wzDiduSsRWd0S5CUrmtbw9nPSAcJWB+zTY=",
         "owner": "HannesGitH",
         "repo": "openapi_parser",
-        "rev": "81a007c8d26f9573358f66b6dd7dbe2427abbb41",
+        "rev": "3364b7e32cf1fd74e7111f7c6780008484b0838b",
         "type": "github"
       },
       "original": {
