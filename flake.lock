@@ -16,37 +16,24 @@
         "type": "github"
       }
     },
-    "nixpkgs_2": {
-      "locked": {
-        "lastModified": 1742288794,
-        "narHash": "sha256-Txwa5uO+qpQXrNG4eumPSD+hHzzYi/CdaM80M9XRLCo=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "b6eaf97c6960d97350c584de1b6dcff03c9daf42",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "openapi_parser": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
-        "lastModified": 1742465850,
-        "narHash": "sha256-LXjplr0H0wzDiduSsRWd0S5CUrmtbw9nPSAcJWB+zTY=",
+        "lastModified": 1742485209,
+        "narHash": "sha256-F84py4f+6YCc4EDkXZApv99Xt/EtGUKEUdlVS3zZOvg=",
         "owner": "HannesGitH",
         "repo": "openapi_parser",
-        "rev": "3364b7e32cf1fd74e7111f7c6780008484b0838b",
+        "rev": "3883a0f72434ec8d4d828ffb90dd604df0aa2991",
         "type": "github"
       },
       "original": {
         "owner": "HannesGitH",
         "repo": "openapi_parser",
+        "rev": "3883a0f72434ec8d4d828ffb90dd604df0aa2991",
         "type": "github"
       }
     },

@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    openapi_parser.url = "github:HannesGitH/openapi_parser/main";
+    openapi_parser.url = "github:HannesGitH/openapi_parser/3883a0f72434ec8d4d828ffb90dd604df0aa2991";
     openapi_parser.inputs.nixpkgs.follows = "nixpkgs";
   };
 
