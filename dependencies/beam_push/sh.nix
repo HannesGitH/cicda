@@ -34,8 +34,8 @@ let
 
     dist_dir=.dist/beam
 
-    BEAM_OWNER=Bling-Services
-    BEAM_REPO=beam
+    BEAM_OWNER=$2
+    BEAM_REPO=$3
     BEAM_DIR="$PIPELINE_DIR/$BEAM_REPO"
 
     APP_DIR="$PIPELINE_DIR/$APP_REPO"
@@ -75,6 +75,7 @@ let
 
     # get new hash
     hash=$(git rev-parse HEAD)
+    echo $hash
   '';
 in
 pkgs.runCommand "beam_push" {} ''

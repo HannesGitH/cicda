@@ -15,11 +15,8 @@
       packages = forAllSystems (s: let pkgs = spkgs s; in with pkgs; rec {
         beam_gen = pkgs.callPackage ./dependencies/beam_gen/sh.nix {
           openapi_parser = openapi_parser.packages.${s}.default;
-          inherit pkgs;
         };
-        beam_push = pkgs.callPackage ./dependencies/beam_push/sh.nix {
-          inherit pkgs;
-        };
+        beam_push = pkgs.callPackage ./dependencies/beam_push/sh.nix {};
         app = stdenv.mkDerivation (finalAttrs: {
           pname = "cicda";
           version = "000-0";

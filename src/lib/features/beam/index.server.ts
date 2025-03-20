@@ -18,6 +18,8 @@ export const createBeam = async({ general_octokit, version }: { general_octokit:
     const owner = 'HannesGitH';
     const repo = 'beam2';
 
+    await genBeam({version});
+
     //TODO: should be GET /orgs/{org}/installation with org = Bling-Services
     const installationId = (await general_octokit.request('GET /users/{owner}/installation', {
         owner,
@@ -63,7 +65,7 @@ export const pushBeam = async ({version, owner, repo, accessToken}:{version: Ver
     // run sh script to push beam
     const { stdout } = await execPromise(`GITHUB_TOKEN=${accessToken} beam_push ${version} ${owner} ${repo}`);
     // get hash from result (read stdout)
-    const hash = stdout.split(' ')[1];
+    const hash = stdout.split('\n').at(-2);
     return hash;
 }
 

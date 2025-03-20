@@ -5,7 +5,7 @@ import { getOctoApp } from '$lib/common/octo.server';
 
 export const POST: RequestHandler = async ({ request }) => {
 	const result = await createBeam({
-        version: "0.0.1",
+        version: "0.0.4",
         general_octokit: (await getOctoApp()).octokit
     });
     return json({
