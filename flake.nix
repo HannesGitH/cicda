@@ -11,10 +11,10 @@
       systems = lib.systems.flakeExposed;
       forAllSystems = lib.genAttrs systems;
       spkgs = system: nixpkgs.legacyPackages.${system}.pkgs;
-    in {
+    in rec{
       packages = forAllSystems (s: let pkgs = spkgs s; in with pkgs; rec {
         beam_gen = pkgs.callPackage ./dependencies/beam_gen/sh.nix {
-          inherit openapi_parser;
+          openapi_parser = openapi_parser.packages.${s}.default;
           inherit pkgs;
         };
         app = stdenv.mkDerivation (finalAttrs: {
@@ -56,6 +56,7 @@
           buildInputs = [
             nodejs
             pnpm
+            packages.${s}.beam_gen
           ];
         };
       });

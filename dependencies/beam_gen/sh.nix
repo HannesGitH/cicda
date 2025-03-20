@@ -45,10 +45,10 @@ let
     cp -r $template_dir/ $dist_dir
 
     # replace version in readme.md
-    ${pkgs.gnused}/bin/sed -i "" "s/{{VERSION}}/$version/" "$dist_dir/readme.md"
+    ${pkgs.gnused}/bin/sed -i "s/{{VERSION}}/$version/" "$dist_dir/readme.md"
 
     # replace version in pubspec.yaml
-    ${pkgs.gnused}/bin/sed -i "" "s/{{VERSION}}/$version/" "$dist_dir/pubspec.yaml"
+    ${pkgs.gnused}/bin/sed -i "s/{{VERSION}}/$version/" "$dist_dir/pubspec.yaml"
 
     # run the workhorse of the generation
     ${openapi_parser}/bin/openapi_parser -u $spec_url -o $dist_dir/lib/gen -d $target_lang
