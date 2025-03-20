@@ -17,6 +17,9 @@
           openapi_parser = openapi_parser.packages.${s}.default;
           inherit pkgs;
         };
+        beam_push = pkgs.callPackage ./dependencies/beam_push/sh.nix {
+          inherit pkgs;
+        };
         app = stdenv.mkDerivation (finalAttrs: {
           pname = "cicda";
           version = "000-0";
@@ -24,7 +27,8 @@
           src = ./.;
 
           buildInputs = [
-            beam_gen            
+            beam_gen
+            beam_push
           ];
 
           nativeBuildInputs = [
@@ -57,6 +61,7 @@
             nodejs
             pnpm
             packages.${s}.beam_gen
+            packages.${s}.beam_push
           ];
         };
       });

@@ -3,6 +3,9 @@ import type { Octokit } from "octokit";
 import { exec } from 'node:child_process';
 import { readdir, readFile } from 'fs/promises';
 import { join, relative } from 'path';
+import { promisify } from 'util';
+
+const execPromise = promisify(exec);
 
 type Version = `${number}.${number}.${number}`;
 
@@ -22,79 +25,12 @@ export const createBeam = async({ general_octokit, version }: { general_octokit:
     })).data.id;
 
     const octokit = await octo(installationId);
-    
-    // Get the latest commit to use as parent
-    const { data: refData } = await octokit.rest.git.getRef({
-        owner,
-        repo,
-        ref: 'heads/main',
-    });
-    
-    const parentSha = refData.object.sha;
 
-    console.log(installationId);
-    console.log(parentSha);
-    
-    // Get the files from .dist/beam
-    const beamDir = '.dist/beam';
-    const files = await readFilesRecursively(beamDir);
-    
-    // Create blobs for each file
-    const blobs = await Promise.all(
-        files.map(async (file) => {
-            const content = await readFile(file.path, 'utf8');
-
-            const { data } = await octokit.rest.git.createBlob({
-                owner,
-                repo,
-                content,
-                encoding: 'utf8',
-            });
-
-            console.log("created blob for", file.path);
-            
-            return {
-                path: relative(beamDir, file.path),
-                mode: '100644' as const, // Regular file with correct type
-                type: 'blob' as const,
-                sha: data.sha,
-            };
-        })
-    );
-
-    console.log(blobs);
-    
-    // Create a tree
-    const { data: treeData } = await octokit.rest.git.createTree({
-        owner,
-        repo,
-        base_tree: parentSha,
-        tree: blobs,
+    const { data: {token: accessToken} } = await octokit.request('POST /app/installations/{installation_id}/access_tokens', {
+        installation_id: installationId,
     });
-    
-    // Create a commit
-    const { data: commitData } = await octokit.rest.git.createCommit({
-        owner,
-        repo,
-        message: `update beam to ${version}`,
-        tree: treeData.sha,
-        parents: [parentSha],
-        author: {
-            name: 'Bling-Services CICDa',
-            email: 'cicda@blingcard.com',
-        },
-    });
-    
-    // Update the reference
-    await octokit.rest.git.updateRef({
-        owner,
-        repo,
-        ref: 'heads/main',
-        sha: commitData.sha,
-    });
-    
-    console.log('Successfully updated beam to version', version);
-    return commitData;
+
+    pushBeam({version, owner, repo, accessToken});
 }
 
 // Helper function to read files recursively
@@ -119,8 +55,15 @@ async function readFilesRecursively(dir: string): Promise<{ path: string }[]> {
 // XXX: should not be exported..
 export const genBeam = async ({version}:{version: Version}) => {
     // run sh script to generate beam
-    const result = await exec(`beam_gen api.dev.blingcard.app ${version}`);
-    console.log(result);
-    return result;
+    const { stdout } = await execPromise(`beam_gen api.dev.blingcard.app ${version}`);
+}
+
+
+export const pushBeam = async ({version, owner, repo, accessToken}:{version: Version, owner: string, repo: string, accessToken: string}) => {
+    // run sh script to push beam
+    const { stdout } = await execPromise(`GITHUB_TOKEN=${accessToken} beam_push ${version} ${owner} ${repo}`);
+    // get hash from result (read stdout)
+    const hash = stdout.split(' ')[1];
+    return hash;
 }
 
