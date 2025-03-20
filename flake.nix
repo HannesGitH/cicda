@@ -32,6 +32,7 @@
           nativeBuildInputs = [
             nodejs
             pnpm.configHook
+            pkg-config
           ];
 
           pnpmDeps = pnpm.fetchDeps {
