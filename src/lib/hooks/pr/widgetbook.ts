@@ -4,8 +4,9 @@ import type { Octokit } from "octokit";
 import { artifact_dir } from "../../../../config";
 import { exec } from 'node:child_process';
 import { promisify } from 'util';
+import path from "node:path";
 
-const execPromise = promisify(exec);
+const writeFilePromise = promisify(fs.writeFile);
 
 export const buildWidgetBookFromHook = async({ octokit, payload }: { octokit: Octokit, payload: any }) => {
     // ignore prs from bots
@@ -78,9 +79,26 @@ export const buildWidgetBookFromHook = async({ octokit, payload }: { octokit: Oc
     // save the zip to a file
     const zipPath = `${artifact_dir}/source/widgetbook/${prId}.zip`;
     const buffer = await new Response(zipResponse.data as ReadableStream).arrayBuffer();
-    fs.writeFileSync(zipPath, Buffer.from(buffer));
+    // Ensure directory exists before writing file
+    const zipDir = path.dirname(zipPath);
+    if (!fs.existsSync(zipDir)) {
+        fs.mkdirSync(zipDir, { recursive: true });
+    }
+    await writeFilePromise(zipPath, Buffer.from(buffer));
 
     // build the widgetbook
     const buildOutputDir = `${artifact_dir}/${baseHref}`;
-    await execPromise(`widgetbook_build ${baseHref} ${zipPath} 'packages/ui' ${buildOutputDir}`);
+    const build_process = exec(`widgetbook_build ${baseHref} ${zipPath} 'packages/ui' ${buildOutputDir}`);
+
+    build_process.stdout?.on('data', (data) => {
+        console.log(data);
+    });
+
+    build_process.stderr?.on('data', (data) => {
+        console.error(data);
+    });
+
+    build_process.on('close', (code) => {
+        console.log(`widgetbook build finished with code ${code}`);
+    });
 };

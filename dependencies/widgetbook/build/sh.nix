@@ -34,16 +34,24 @@ let
 
     # unzip the zip file
     # mk temp dir to unzip into
-    TEMP_DIR=$(${pkgs.coreutils}/bin/mktemp -d)
-    ${pkgs.unzip}/bin/unzip $ZIP_PATH -d $TEMP_DIR
+    TEMP_DIR=$ZIP_PATH.tmp
+    EXTRACT_DIR=$TEMP_DIR/extract
+    mkdir -p $EXTRACT_DIR
+    ${pkgs.unzip}/bin/unzip $ZIP_PATH -d $EXTRACT_DIR > /dev/null
+    
+    # get the name of the folder inside the zip file
+    WIDGETBOOK_SRC_DIR=$(ls $EXTRACT_DIR)/$WIDGETBOOK_SRC_DIR
+
     rm $ZIP_PATH
 
     # run flutter build web in the temp dir
-    cd $TEMP_DIR/$WIDGETBOOK_SRC_DIR
-    ${pkgs.flutter}/bin/flutter build web --dart-define IS_WITH_ASSETS=false --base-href $BASE_HREF
+    cd $TEMP_DIR/$WIDGETBOOK_SRC_DIR || exit 1
+    echo "Running flutter build web in"
+    pwd
+    ${pkgs.flutter}/bin/flutter build web --dart-define IS_WITH_ASSETS=false --base-href $BASE_HREF || exit 1
 
     # copy the build directory to the output directory
-    cp -r build/web $OUTPUT_DIR
+    cp -r build/web $OUTPUT_DIR || exit 1
 
     # remove the temp dir
     rm -rf $TEMP_DIR
