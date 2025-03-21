@@ -6,6 +6,8 @@ export async function POST({ request })  {
 
     const octo_app = getOctoApp();
 
+	console.log("Received webhook");
+
     octo_app.webhooks.on("pull_request", onPullRequest);
 
 	try {
@@ -13,7 +15,7 @@ export async function POST({ request })  {
 			id: request.headers.get("x-github-delivery")!,
 			name: request.headers.get("x-github-event")!,
 			signature: request.headers.get("x-hub-signature-256")!,
-			payload: await request.json(),
+			payload: await request.text(),
 		});
 	} catch (error) {
 		console.error(error);
