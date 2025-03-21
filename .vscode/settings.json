@@ -1,5 +1,17 @@
 {
     "cSpell.words": [
-        "octo"
+        "cicda",
+        "coreutils",
+        "github",
+        "mktemp",
+        "nixos",
+        "nixpkgs",
+        "octo",
+        "openapi",
+        "pkgs",
+        "pname",
+        "spkgs",
+        "stdenv",
+        "widgetbook"
     ]
 }

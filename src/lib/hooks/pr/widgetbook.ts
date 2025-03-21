@@ -1,6 +1,11 @@
 import { env } from "$env/dynamic/private";
-import { privateEncrypt } from "node:crypto";
+import fs from "node:fs";
 import type { Octokit } from "octokit";
+import { artifact_dir } from "../../../../config";
+import { exec } from 'node:child_process';
+import { promisify } from 'util';
+
+const execPromise = promisify(exec);
 
 export const buildWidgetBookFromHook = async({ octokit, payload }: { octokit: Octokit, payload: any }) => {
     // ignore prs from bots
@@ -52,4 +57,30 @@ export const buildWidgetBookFromHook = async({ octokit, payload }: { octokit: Oc
         });
     }
 
+    // //add auth token to clone url
+    // //XXX: maybe there is a better way to do this
+    // const installationId = (await octokit.request('GET /repos/{owner}/{repo}/installation', {
+    //     owner: payload.pull_request.head.repo.owner.login,
+    //     repo: payload.pull_request.head.repo.name,
+    // })).data.id;
+    
+    // const { data: {token: accessToken} } = await octokit.request('POST /app/installations/{installation_id}/access_tokens', {
+    //     installation_id: installationId,
+    // });
+
+    // download the pr source code as zip
+    const zipResponse = await octokit.rest.repos.downloadZipballArchive({
+        owner: head.owner,
+        repo: head.repo,
+        ref: payload.pull_request.head.ref
+    });
+
+    // save the zip to a file
+    const zipPath = `${artifact_dir}/source/widgetbook/${prId}.zip`;
+    const buffer = await new Response(zipResponse.data as ReadableStream).arrayBuffer();
+    fs.writeFileSync(zipPath, Buffer.from(buffer));
+
+    // build the widgetbook
+    const buildOutputDir = `${artifact_dir}/${baseHref}`;
+    await execPromise(`widgetbook_build ${baseHref} ${zipPath} 'packages/ui' ${buildOutputDir}`);
 };

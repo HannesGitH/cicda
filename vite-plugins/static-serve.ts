@@ -1,7 +1,8 @@
 import express from 'express';
-const assets = express.static('built');
+import { servable_files_dir } from '../config';
+const static_middleware = express.static(servable_files_dir);
 const configureServer = (server: any) => {
-    server.middlewares.use(assets);
+    server.middlewares.use(static_middleware);
 };
 export const static_serve = () => ({
     name: 'static-serve',

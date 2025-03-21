@@ -18,6 +18,7 @@
           openapi_parser = openapi_parser.packages.${s}.default;
         };
         beam_push = pkgs.callPackage ./dependencies/beam/push/sh.nix {};
+        widgetbook_build = pkgs.callPackage ./dependencies/widgetbook/build/sh.nix {};
         app = stdenv.mkDerivation (finalAttrs: {
           pname = "cicda";
           version = "000-0";
@@ -27,6 +28,7 @@
           buildInputs = [
             beam_gen
             beam_push
+            widgetbook_build
           ];
 
           nativeBuildInputs = [
@@ -61,6 +63,7 @@
             pnpm
             packages.${s}.beam_gen
             packages.${s}.beam_push
+            packages.${s}.widgetbook_build
           ];
         };
       });

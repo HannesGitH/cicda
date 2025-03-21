@@ -52,7 +52,7 @@ let
     else
         echo "Cloning beam repository for the first time..."
         mkdir -p "$BEAM_DIR"
-        git clone https://github.com/$BEAM_OWNER/$BEAM_REPO.git "$BEAM_DIR"
+        git clone https://x-access-token:$GITHUB_TOKEN@github.com/$BEAM_OWNER/$BEAM_REPO.git "$BEAM_DIR"
         cd "$BEAM_DIR"
     fi
 
@@ -71,7 +71,7 @@ let
     git commit -m "update to $version"
 
     # Push changes
-    git push https://github.com/$BEAM_OWNER/$BEAM_REPO.git main
+    git push https://x-access-token:$GITHUB_TOKEN@github.com/$BEAM_OWNER/$BEAM_REPO.git main
 
     # get new hash
     hash=$(git rev-parse HEAD)
