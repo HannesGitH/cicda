@@ -1,3 +1,4 @@
+import { env } from "$env/dynamic/private";
 import { privateEncrypt } from "node:crypto";
 import type { Octokit } from "octokit";
 
@@ -19,7 +20,12 @@ export const buildWidgetBookFromHook = async({ octokit, payload }: { octokit: Oc
     const prNumber = payload.pull_request.number;
     const prIdData = `${payload.pull_request.head.repo.id}\n${prNumber}`;
     
-    const prId = crypto.randomUUID();
+    const prId = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(prIdData+env.WIDGETBOOK_NONCE))
+        .then((hash) => 
+            Array.from(new Uint8Array(hash))
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('')
+        );
 
     const commentTag = `<!-- widgetbook-build-${prId} -->`;
 
