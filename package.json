@@ -29,7 +29,9 @@
 	"dependencies": {
 		"@octokit/webhooks": "^13.7.5",
 		"@sveltejs/adapter-node": "^5.2.12",
+		"@types/express": "^5.0.1",
 		"child_process": "^1.0.2",
+		"express": "^4.21.2",
 		"octokit": "^4.1.2",
 		"yaml": "^2.7.0"
 	}
