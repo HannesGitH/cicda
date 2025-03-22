@@ -21,7 +21,7 @@
         };
         beam_push = pkgs.callPackage ./dependencies/beam/push/sh.nix {};
         widgetbook_build = pkgs.callPackage ./dependencies/widgetbook/build/sh.nix {inherit localizationGen;};
-        app = stdenv.mkDerivation (finalAttrs: {
+        app = stdenv.mkDerivation (finalAttrs: rec {
           pname = "cicda";
           version = "000-0";
 
@@ -49,7 +49,7 @@
 
           buildPhase = ''
             # replace the artifact dir in the config.ts file
-            sed -i "s|artifact_dir = .*|artifact_dir = \"${artifact_dir}\"|" src/config.ts
+            ${gnused}/bin/sed -i "s|artifact_dir = .*|artifact_dir = \"${artifact_dir}\"|" config.ts
             pnpm install
             pnpm build
           '';
@@ -57,6 +57,8 @@
           installPhase = ''
             mkdir -p $out
             cp -r build/* $out
+            cp -r node_modules $out
+            cp -r beam_template $out
           '';
 
         });
