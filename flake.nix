@@ -44,7 +44,12 @@
             hash = "sha256-USKovI6SMR/P7Nr1jgF4sw36qE+eURhmy1hvriUFVVo=";
           };
 
+          # can be overridden with overrideAttrs
+          artifact_dir = "/var/cicda/artifacts";
+
           buildPhase = ''
+            # replace the artifact dir in the config.ts file
+            sed -i "s|artifact_dir = .*|artifact_dir = \"${artifact_dir}\"|" src/config.ts
             pnpm install
             pnpm build
           '';
