@@ -13,6 +13,8 @@ type Version = `${number}.${number}.${number}`;
 // TODO: add type for octokit
 export const createBeam = async({ general_octokit, version }: { general_octokit: Octokit , version: Version}) => {
     //add everything in .dist/beam as a new commit to Bling-Services/beam
+
+    console.log('Creating beam');
     
     // Get the repository information
     //TODO: swap with bling beam
@@ -22,6 +24,8 @@ export const createBeam = async({ general_octokit, version }: { general_octokit:
     const app_branch = 'dev';
 
     await genBeam({version});
+
+    console.log('Beam generated');
 
     //TODO: should be GET /orgs/{org}/installation with org = Bling-Services
     const installationId = (await general_octokit.request('GET /users/{owner}/installation', {
@@ -37,6 +41,8 @@ export const createBeam = async({ general_octokit, version }: { general_octokit:
 
     const hash = await pushBeam({version, owner, repo: beam_repo, accessToken});
     const pr = await makeBeamPr({hash, owner, repo: app_repo, branch: app_branch, octokit, link: `https://github.com/${owner}/${beam_repo}/commit/${hash}`});
+
+    console.log('Beam pushed and PR created');
 }
 
 // Helper function to read files recursively

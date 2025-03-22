@@ -2,8 +2,7 @@
 
   const _createBeam = async () => {
       const response = await fetch('/test', {
-        method: 'POST',
-        body: JSON.stringify({ a: 1, b: 2 })
+        method: 'POST'
       });
       const data = await response.json();
       console.log(data);
