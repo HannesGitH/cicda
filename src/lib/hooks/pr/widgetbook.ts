@@ -1,7 +1,7 @@
 import { env } from "$env/dynamic/private";
 import fs from "node:fs";
 import type { Octokit } from "octokit";
-import { artifact_dir } from "../../../../config";
+import { artifact_dir, servable_files_dir } from "../../../../config";
 import { exec } from 'node:child_process';
 import { promisify } from 'util';
 import path from "node:path";
@@ -87,7 +87,7 @@ export const buildWidgetBookFromHook = async({ octokit, payload }: { octokit: Oc
     await writeFilePromise(zipPath, Buffer.from(buffer));
 
     // build the widgetbook
-    const buildOutputDir = `${artifact_dir}/${baseHref}`;
+    const buildOutputDir = `${servable_files_dir}/${baseHref}`;
     const command = `widgetbook_build ${baseHref} ${zipPath} 'packages/ui' ${buildOutputDir}`;
     console.log(`Building widgetbook with command: ${command}`);
     const build_process = exec(command);

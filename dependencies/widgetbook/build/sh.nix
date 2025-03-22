@@ -40,7 +40,7 @@ let
     yes | ${pkgs.unzip}/bin/unzip $ZIP_PATH -d $EXTRACT_DIR > /dev/null
     
     # get the name of the folder inside the zip file
-    WIDGETBOOK_SRC_DIR=$(ls $EXTRACT_DIR)/$WIDGETBOOK_SRC_DIR
+    WIDGETBOOK_SRC_DIR=extract/$(ls $EXTRACT_DIR)/$WIDGETBOOK_SRC_DIR
 
     rm $ZIP_PATH
 
@@ -53,7 +53,8 @@ let
     ${pkgs.flutter}/bin/flutter build web --dart-define IS_WITH_ASSETS=false --base-href $BASE_HREF || exit 1
 
     # copy the build directory to the output directory
-    cp -r build/web $OUTPUT_DIR || exit 1
+    mkdir -p $OUTPUT_DIR
+    cp -r build/web/* $OUTPUT_DIR || exit 1
 
     # remove the temp dir
     rm -rf $TEMP_DIR
