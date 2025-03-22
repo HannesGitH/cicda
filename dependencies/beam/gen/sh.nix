@@ -2,7 +2,7 @@
 
 let
   script = ''
-    #!/bin/bash
+    #!/usr/bin/env bash
 
     # swagger basic auth creds have to be in environment variables
     if [ -z "$SWAGGER_BASIC_SECR" ]; then

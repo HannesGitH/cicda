@@ -1,7 +1,7 @@
 { pkgs }:
 let
   script = ''
-    #!/bin/bash
+    #!/usr/bin/env bash
 
     # provide the GITHUB_TOKEN via environment variable
     if [ -z "$GITHUB_TOKEN" ]; then

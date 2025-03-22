@@ -2,7 +2,7 @@
 
 let
   script = ''
-    #!/bin/bash
+    #!/usr/bin/env bash
 
     # base href has to be passed as an argument
     BASE_HREF=$1
