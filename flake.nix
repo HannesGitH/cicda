@@ -31,7 +31,6 @@
             beam_gen
             beam_push
             widgetbook_build
-            bash
           ];
 
           nativeBuildInputs = [

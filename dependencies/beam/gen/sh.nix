@@ -2,7 +2,7 @@
 
 let
   script = ''
-    #!/usr/bin/env bash
+    #!${pkgs.bash}/bin/bash
 
     # swagger basic auth creds have to be in environment variables
     if [ -z "$SWAGGER_BASIC_SECR" ]; then
