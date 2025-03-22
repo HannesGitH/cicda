@@ -53,6 +53,7 @@ let
     ${pkgs.flutter}/bin/flutter build web --dart-define IS_WITH_ASSETS=false --base-href $BASE_HREF || exit 1
 
     # copy the build directory to the output directory
+    rm -rf $OUTPUT_DIR
     mkdir -p $OUTPUT_DIR
     cp -r build/web/* $OUTPUT_DIR || exit 1
 

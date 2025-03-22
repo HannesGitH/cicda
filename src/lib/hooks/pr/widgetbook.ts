@@ -14,6 +14,11 @@ export const buildWidgetBookFromHook = async({ octokit, payload }: { octokit: Oc
         return;
     }
 
+    // only run if the head changed (synchronize action)
+    if (payload.action !== "synchronize" && payload.action !== "opened" && payload.action !== "reopened") {
+        return;
+    }
+
     console.log("running widgetbook pipeline");
 
     const head = {
@@ -57,17 +62,6 @@ export const buildWidgetBookFromHook = async({ octokit, payload }: { octokit: Oc
             issue_number: prNumber,
         });
     }
-
-    // //add auth token to clone url
-    // //XXX: maybe there is a better way to do this
-    // const installationId = (await octokit.request('GET /repos/{owner}/{repo}/installation', {
-    //     owner: payload.pull_request.head.repo.owner.login,
-    //     repo: payload.pull_request.head.repo.name,
-    // })).data.id;
-    
-    // const { data: {token: accessToken} } = await octokit.request('POST /app/installations/{installation_id}/access_tokens', {
-    //     installation_id: installationId,
-    // });
 
     // download the pr source code as zip
     const zipResponse = await octokit.rest.repos.downloadZipballArchive({

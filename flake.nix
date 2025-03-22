@@ -20,7 +20,7 @@
           openapi_parser = openapi_parser.packages.${s}.default;
         };
         beam_push = pkgs.callPackage ./dependencies/beam/push/sh.nix {};
-        widgetbook_build = pkgs.callPackage ./dependencies/widgetbook/build/sh.nix {inherit localizationGen;};
+        widgetbook_build = pkgs.callPackage ./dependencies/widgetbook/build/sh.nix {inherit localizationGen; inherit pkgs;};
         app = stdenv.mkDerivation (finalAttrs: rec {
           pname = "cicda";
           version = "000-0";
