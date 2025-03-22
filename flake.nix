@@ -27,7 +27,7 @@
 
           src = ./.;
 
-          buildInputs = [
+          propagatedBuildInputs = [
             beam_gen
             beam_push
             widgetbook_build
