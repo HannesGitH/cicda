@@ -1,4 +1,4 @@
-{pkgs}:
+{pkgs, localizationGen}:
 
 let
   script = ''
@@ -37,7 +37,7 @@ let
     TEMP_DIR=$ZIP_PATH.tmp
     EXTRACT_DIR=$TEMP_DIR/extract
     mkdir -p $EXTRACT_DIR
-    ${pkgs.unzip}/bin/unzip $ZIP_PATH -d $EXTRACT_DIR > /dev/null
+    yes | ${pkgs.unzip}/bin/unzip $ZIP_PATH -d $EXTRACT_DIR > /dev/null
     
     # get the name of the folder inside the zip file
     WIDGETBOOK_SRC_DIR=$(ls $EXTRACT_DIR)/$WIDGETBOOK_SRC_DIR
@@ -48,6 +48,8 @@ let
     cd $TEMP_DIR/$WIDGETBOOK_SRC_DIR || exit 1
     echo "Running flutter build web in"
     pwd
+
+    ${localizationGen}/bin/localizationGen -localizationPath assets/translations/de.json -outputPath lib/assets/localizations.dart -workspacePath .
     ${pkgs.flutter}/bin/flutter build web --dart-define IS_WITH_ASSETS=false --base-href $BASE_HREF || exit 1
 
     # copy the build directory to the output directory

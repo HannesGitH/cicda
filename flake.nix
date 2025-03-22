@@ -5,20 +5,22 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     openapi_parser.url = "github:HannesGitH/openapi_parser/3883a0f72434ec8d4d828ffb90dd604df0aa2991";
     openapi_parser.inputs.nixpkgs.follows = "nixpkgs";
+    bling_cli.url = "git+https://github.com/Bling-Services/bling_cli.git?ref=flake";
   };
 
-  outputs = { self, nixpkgs, openapi_parser }: let
+  outputs = { self, nixpkgs, openapi_parser, bling_cli }: let
       inherit (nixpkgs) lib;
       systems = lib.systems.flakeExposed;
       forAllSystems = lib.genAttrs systems;
       spkgs = system: nixpkgs.legacyPackages.${system}.pkgs;
     in rec{
       packages = forAllSystems (s: let pkgs = spkgs s; in with pkgs; rec {
+        localizationGen = bling_cli.packages.${s}.localizationGen;
         beam_gen = pkgs.callPackage ./dependencies/beam/gen/sh.nix {
           openapi_parser = openapi_parser.packages.${s}.default;
         };
         beam_push = pkgs.callPackage ./dependencies/beam/push/sh.nix {};
-        widgetbook_build = pkgs.callPackage ./dependencies/widgetbook/build/sh.nix {};
+        widgetbook_build = pkgs.callPackage ./dependencies/widgetbook/build/sh.nix {inherit localizationGen;};
         app = stdenv.mkDerivation (finalAttrs: {
           pname = "cicda";
           version = "000-0";

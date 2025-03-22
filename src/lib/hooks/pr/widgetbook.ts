@@ -88,7 +88,9 @@ export const buildWidgetBookFromHook = async({ octokit, payload }: { octokit: Oc
 
     // build the widgetbook
     const buildOutputDir = `${artifact_dir}/${baseHref}`;
-    const build_process = exec(`widgetbook_build ${baseHref} ${zipPath} 'packages/ui' ${buildOutputDir}`);
+    const command = `widgetbook_build ${baseHref} ${zipPath} 'packages/ui' ${buildOutputDir}`;
+    console.log(`Building widgetbook with command: ${command}`);
+    const build_process = exec(command);
 
     build_process.stdout?.on('data', (data) => {
         console.log(data);

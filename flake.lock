@@ -1,6 +1,41 @@
 {
   "nodes": {
+    "bling_cli": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1728887181,
+        "narHash": "sha256-7qSABa/j/sI2mUSgCZAFOu8QSEbj4+Zsz24BZ3UmNM8=",
+        "ref": "flake",
+        "rev": "8678992feec15d05c9cb6b125333de9ba9a16735",
+        "revCount": 287,
+        "type": "git",
+        "url": "https://github.com/Bling-Services/bling_cli.git"
+      },
+      "original": {
+        "ref": "flake",
+        "type": "git",
+        "url": "https://github.com/Bling-Services/bling_cli.git"
+      }
+    },
     "nixpkgs": {
+      "locked": {
+        "lastModified": 1728492678,
+        "narHash": "sha256-9UTxR8eukdg+XZeHgxW5hQA9fIKHsKCdOIUycTryeVw=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "5633bcff0c6162b9e4b5f1264264611e950c8ec7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
       "locked": {
         "lastModified": 1742422364,
         "narHash": "sha256-mNqIplmEohk5jRkqYqG19GA8MbQ/D4gQSK0Mu4LvfRQ=",
@@ -39,7 +74,8 @@
     },
     "root": {
       "inputs": {
-        "nixpkgs": "nixpkgs",
+        "bling_cli": "bling_cli",
+        "nixpkgs": "nixpkgs_2",
         "openapi_parser": "openapi_parser"
       }
     }
